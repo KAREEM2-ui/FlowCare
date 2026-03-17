@@ -1,4 +1,4 @@
-﻿namespace ProcurementLite.Application
+﻿namespace FlowCare.Application.settings
 {
     public class JwtSettings
     {

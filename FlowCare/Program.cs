@@ -1,7 +1,6 @@
 using FlowCare.Application;
 using FlowCare.Application.Interfaces.Services_Interfaces;
 using FlowCare.Infrastructure;
-using FlowCare_presentation.Setting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -51,6 +50,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 
+
 // services reegisteration in the DI 
 string? connString = builder.Configuration.GetConnectionString("DefaultConnection");
 if (connString == null)
@@ -60,8 +60,10 @@ builder.Services.AddInfrastructure(connString, builder.Environment.IsDevelopment
 builder.Services.AddApplication();
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
-builder.Services.Configure<CustomerRateLimiterSettings>(
-    builder.Configuration.GetSection("CustomerRateLimiter"));
+
+
+
+
 
 // auth jwt
 

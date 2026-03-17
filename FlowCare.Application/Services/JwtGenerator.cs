@@ -1,4 +1,5 @@
 using FlowCare.Application.Interfaces.Services_Interfaces;
+using FlowCare.Application.settings;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,7 +19,8 @@ namespace ProcurementLite.Application.Services
 
         public string GenerateToken(List<Claim> claims)
         {
-            
+            if (string.IsNullOrWhiteSpace(_jwtSettings.ToeknKey))
+                throw new InvalidOperationException("JWT access token key is not configured.");
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.ToeknKey));
 
@@ -28,6 +30,9 @@ namespace ProcurementLite.Application.Services
         public string GenerateRefreshToken(List<Claim> claims)
         {
             claims.Add(new Claim("token_type", "refresh"));
+
+            if (string.IsNullOrWhiteSpace(_jwtSettings.ToeknRefreshKey))
+                throw new InvalidOperationException("JWT refresh token key is not configured.");
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.ToeknRefreshKey));
 
@@ -53,6 +58,9 @@ namespace ProcurementLite.Application.Services
         public int? ValidateRefreshToken(string refreshToken)
         {
             if (string.IsNullOrWhiteSpace(refreshToken))
+                return null;
+
+            if (string.IsNullOrWhiteSpace(_jwtSettings.ToeknRefreshKey))
                 return null;
 
             var handler = new JwtSecurityTokenHandler();
@@ -92,12 +100,10 @@ namespace ProcurementLite.Application.Services
             }
             catch (SecurityTokenExpiredException)
             {
-                // expired refresh token — treat as invalid here
                 return null;
             }
             catch
             {
-                // any other validation error -> invalid
                 return null;
             }
         }
