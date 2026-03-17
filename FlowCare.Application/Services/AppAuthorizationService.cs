@@ -22,7 +22,7 @@ public class AppAuthorizationService : IAppAuthorizationService
             return userBranchId == branchId;
         }
 
-        return false;
+        return false; 
     }
 
     public bool IsCustomerOwner(ClaimsPrincipal? user, Appointment appointment)

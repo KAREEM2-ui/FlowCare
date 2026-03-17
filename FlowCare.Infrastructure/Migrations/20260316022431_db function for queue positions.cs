@@ -28,7 +28,7 @@ namespace FlowCare.Infrastructure.Migrations
                     tomorrow := today + interval '1 day';
 
                     RETURN QUERY
-                    WITH booked AS (
+                    WITH slots AS (
                         SELECT
                             ap."SlotId",
                             c."FullName",
@@ -42,13 +42,13 @@ namespace FlowCare.Infrastructure.Migrations
                         LEFT JOIN "service_types" st ON st."Id" = ap."ServiceTypeId"
                         WHERE s."BranchId" = branch_id
                           AND s."StartAt" >= today
-                          AND s."EndAt" < tomorrow
+                          AND s."EndAt" < tomorrow 
                     ),
                     numbered AS (
                         SELECT
                             "SlotId",
-                            ROW_NUMBER() OVER (ORDER BY "EndAt") AS position
-                        FROM booked
+                            ROW_NUMBER() OVER (ORDER BY slots."EndAt") AS position
+                        FROM slots
                         WHERE "AppointmentId" IS NOT NULL
                     )
                     SELECT
@@ -57,7 +57,7 @@ namespace FlowCare.Infrastructure.Migrations
                         b."EndAt",
                         b."Name" AS "Service",
                         n.position AS "RankPosition"
-                    FROM booked b
+                    FROM slots b
                     LEFT JOIN numbered n ON b."SlotId" = n."SlotId"
                     ORDER BY b."EndAt";
                 END;

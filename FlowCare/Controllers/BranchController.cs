@@ -73,8 +73,8 @@ public class BranchController : ControllerBase
         {
             ActorId = GetUserId(),
             RoleId = Convert.ToInt32(UserRole.Admin),
-            ActionTypeId = 11,
-            EntityTypeId = 4,
+            ActionTypeId = (int)AuditActionType.CreateBranch,
+            EntityTypeId = (int)AuditEntityType.Branch,
             EntityId = created.Id,
             Timestamp = DateTimeOffset.UtcNow,
             MetadataJson = $"{{\"action\":\"CREATE_BRANCH\",\"name\":\"{created.Name}\"}}"
@@ -103,8 +103,8 @@ public class BranchController : ControllerBase
         {
             ActorId = GetUserId(),
             RoleId = Convert.ToInt32(UserRole.Admin),
-            ActionTypeId = 12,
-            EntityTypeId = 4,
+            ActionTypeId = (int)AuditActionType.UpdateBranch,
+            EntityTypeId = (int)AuditEntityType.Branch,
             EntityId = branchId,
             Timestamp = DateTimeOffset.UtcNow,
             MetadataJson = "{\"action\":\"UPDATE_BRANCH\"}"

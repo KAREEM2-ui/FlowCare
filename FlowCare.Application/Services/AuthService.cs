@@ -185,10 +185,14 @@ public sealed class AuthService : IAuthService
 
     private List<Claim> _CreateStafClaims(Staff staff)
     {
-        List<Claim> claims = new List<Claim>()
+        string role = ((UserRole)staff.RoleId).ToString();
+
+
+        List< Claim> claims = new List<Claim>()
                 {
                     new Claim(ClaimTypes.NameIdentifier, staff.Id.ToString()),
-                    new Claim(ClaimTypes.Role, staff.Role.Title),
+
+                    new Claim(ClaimTypes.Role, role),
                     new Claim("BranchId", staff.BranchId.ToString())
                 };
 

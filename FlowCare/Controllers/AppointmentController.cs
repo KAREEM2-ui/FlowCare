@@ -109,13 +109,19 @@ public class AppointmentController : ControllerBase
     /// </summary>
     [HttpPost]
     [Authorize(Roles = "Customer")]
-    public async Task<IActionResult> BookAppointment([FromForm] BookAppointmentRequest request)
+    public async Task<IActionResult> BookAppointment([FromForm] BookAppointmentRequest request,CancellationToken ct)
     {
         var customerId = GetUserId();
 
-        
-        var created = await _appointmentService.BookAppointmentAsync(request,customerId);
+        var appointment = _appointmentService.GetByIdAsync(customerId,ct);
 
+        if (appointment is not null)
+        {
+            return BadRequest(ApiResponse<string>.Fail("You already have an active appointment."));
+        }
+
+        var created = await _appointmentService.BookAppointmentAsync(request,customerId);
+                
         await _auditLogService.LogAsync(new AuditLog
         {
             ActorId = customerId,
@@ -128,7 +134,7 @@ public class AppointmentController : ControllerBase
         });
 
         return CreatedAtAction(nameof(BookAppointment), new { appointmentId = created.Id },
-            ApiResponse<AppointmentResponse>.Ok(created.ToResponse(), "Appointment booked"));
+        ApiResponse<object>.Ok(new { created.Id }, "Appointment booked"));
     }
 
     /// <summary>
@@ -188,8 +194,8 @@ public class AppointmentController : ControllerBase
         {
             ActorId = customerId,
             RoleId = Convert.ToInt32(UserRole.Staff),
-            ActionTypeId = 3,
-            EntityTypeId = 1,
+            ActionTypeId = (int)AuditActionType.RescheduleAppointment,
+            EntityTypeId = (int)AuditEntityType.Appointment,
             EntityId = appointmentId,
             Timestamp = DateTimeOffset.UtcNow,
             MetadataJson = $"{{\"action\":\"RESCHEDULE_APPOINTMENT\",\"newSlotId\":{request.NewSlotId}}}"
@@ -213,8 +219,8 @@ public class AppointmentController : ControllerBase
         {
             ActorId = GetUserId(),
             RoleId = Convert.ToInt32(Enum.Parse<UserRole>(GetRole())),
-            ActionTypeId = 4,
-            EntityTypeId = 1,
+            ActionTypeId = (int)AuditActionType.UpdateAppointmentStatus,
+            EntityTypeId = (int)AuditEntityType.Appointment,
             EntityId = appointmentId,
             Timestamp = DateTimeOffset.UtcNow,
             MetadataJson = $"{{\"action\":\"UPDATE_APPOINTMENT_STATUS\",\"newStatus\":\"{request.Status}\"}}"

@@ -106,8 +106,8 @@ public class StaffController : ControllerBase
         {
             ActorId = GetUserId(),
             RoleId = Convert.ToInt32(GetRole()),
-            ActionTypeId = 8,
-            EntityTypeId = 3,
+            ActionTypeId = (int)AuditActionType.AssignStaffService,
+            EntityTypeId = (int)AuditEntityType.Staff,
             EntityId = staffId,
             Timestamp = DateTimeOffset.UtcNow,
             MetadataJson = $"{{\"action\":\"ASSIGN_STAFF_SERVICE\",\"serviceTypeId\":{serviceTypeId}}}"
@@ -128,8 +128,8 @@ public class StaffController : ControllerBase
         {
             ActorId = GetUserId(),
             RoleId = Convert.ToInt32(GetRole()),
-            ActionTypeId = 9,
-            EntityTypeId = 3,
+            ActionTypeId = (int)AuditActionType.AssignStaffBranch,
+            EntityTypeId = (int)AuditEntityType.Staff,
             EntityId = staffId,
             Timestamp = DateTimeOffset.UtcNow,
             MetadataJson = $"{{\"action\":\"ASSIGN_STAFF_BRANCH\",\"branchId\":{branchId}}}"

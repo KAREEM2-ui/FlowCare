@@ -85,8 +85,8 @@ public class SlotController : ControllerBase
         {
             ActorId = GetUserId(),
             RoleId = Convert.ToInt32(Enum.Parse<UserRole>(GetRole())),
-            ActionTypeId = 5,
-            EntityTypeId = 2,
+            ActionTypeId = (int)AuditActionType.CreateSlot,
+            EntityTypeId = (int)AuditEntityType.Slot,
             EntityId = created.Id,
             Timestamp = DateTimeOffset.UtcNow,
             MetadataJson = $"{{\"action\":\"CREATE_SLOT\",\"branchId\":{request.BranchId}}}"
@@ -123,8 +123,8 @@ public class SlotController : ControllerBase
         {
             ActorId = GetUserId(),
             RoleId = Convert.ToInt32(Enum.Parse<UserRole>(GetRole())),
-            ActionTypeId = 5,
-            EntityTypeId = 2,
+            ActionTypeId = (int)AuditActionType.CreateSlot,
+            EntityTypeId = (int)AuditEntityType.Slot,
             EntityId = 0,
             Timestamp = DateTimeOffset.UtcNow,
             MetadataJson = $"{{\"action\":\"BULK_CREATE_SLOTS\",\"count\":{slots.Count}}}"
@@ -156,8 +156,8 @@ public class SlotController : ControllerBase
         {
             ActorId = GetUserId(),
             RoleId = Convert.ToInt32(Enum.Parse<UserRole>(GetRole())),
-            ActionTypeId = 6,
-            EntityTypeId = 2,
+            ActionTypeId = (int)AuditActionType.UpdateSlot,
+            EntityTypeId = (int)AuditEntityType.Slot,
             EntityId = slotId,
             Timestamp = DateTimeOffset.UtcNow,
             MetadataJson = "{\"action\":\"UPDATE_SLOT\"}"
@@ -187,8 +187,8 @@ public class SlotController : ControllerBase
         {
             ActorId = GetUserId(),
             RoleId = Convert.ToInt32(Enum.Parse<UserRole>(GetRole())),
-            ActionTypeId = 7,
-            EntityTypeId = 2,
+            ActionTypeId = (int)AuditActionType.SoftDeleteSlot,
+            EntityTypeId = (int)AuditEntityType.Slot,
             EntityId = slotId,
             Timestamp = DateTimeOffset.UtcNow,
             MetadataJson = "{\"action\":\"SOFT_DELETE_SLOT\"}"
@@ -207,8 +207,8 @@ public class SlotController : ControllerBase
         {
             ActorId = GetUserId(),
             RoleId = Convert.ToInt32(UserRole.Admin),
-            ActionTypeId = 10,
-            EntityTypeId = 2,
+            ActionTypeId = (int)AuditActionType.HardDeleteExpiredSlots,
+            EntityTypeId = (int)AuditEntityType.Slot,
             EntityId = 0,
             Timestamp = DateTimeOffset.UtcNow,
             MetadataJson = $"{{\"action\":\"HARD_DELETE_EXPIRED_SLOTS\",\"retentionDays\":{SoftDeleteRetentionDays}}}"
