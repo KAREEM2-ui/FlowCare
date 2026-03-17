@@ -1,0 +1,6 @@
+@FlowCare_HostAddress = http://localhost:5152
+
+GET {{FlowCare_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

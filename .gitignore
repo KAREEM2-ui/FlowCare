@@ -1,0 +1,84 @@
+############################
+# Root ignore for all .NET projects in FlowCare Backend
+############################
+
+# Build artifacts
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Dd]ebug*/
+[Rr]elease*/
+x64/
+x86/
+artifacts/
+out/
+
+# Visual Studio / IDE
+.vs/
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.cache
+*.VC.db
+*.VC.opendb
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+**/packages/*
+!**/packages/build/
+
+# Test outputs
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Publish / deploy
+publish/
+wwwroot/dist/
+wwwroot/lib/
+
+# EF / tooling / certs
+*.dbmdl
+*.jfm
+*.pfx
+
+# Logs
+*.log
+logs/
+*.tlog
+
+# ASP.NET Core local settings/secrets
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+*.secrets.json
+.env
+.env.*
+
+# Local databases/files
+*.mdf
+*.ldf
+*.sqlite
+*.db
+
+# Node (if any frontend projects exist)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Optional runtime-generated folders
+Uploads/
