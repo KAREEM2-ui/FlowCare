@@ -187,9 +187,9 @@ public sealed class AuthService : IAuthService
     {
         List<Claim> claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.NameIdentifier, staff.Username),
-                    new Claim(ClaimTypes.Role,staff.Role.Title),
-                    new Claim("branchId",staff.Branch != null ? staff.Branch.Id.ToString() : "-1")
+                    new Claim(ClaimTypes.NameIdentifier, staff.Id.ToString()),
+                    new Claim(ClaimTypes.Role, staff.Role.Title),
+                    new Claim("BranchId", staff.BranchId.ToString())
                 };
 
         return claims;
@@ -199,8 +199,8 @@ public sealed class AuthService : IAuthService
     {
         List<Claim> claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.NameIdentifier, customer.Username),
-                    new Claim(ClaimTypes.Role,"Customer"),
+                    new Claim(ClaimTypes.NameIdentifier, customer.Id.ToString()),
+                    new Claim(ClaimTypes.Role, "Customer"),
                 };
 
         return claims;

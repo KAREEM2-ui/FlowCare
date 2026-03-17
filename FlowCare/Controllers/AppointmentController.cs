@@ -127,7 +127,7 @@ public class AppointmentController : ControllerBase
             MetadataJson = $"{{\"action\":\"BOOK_APPOINTMENT\",\"slotId\":{request.SlotId}}}"
         });
 
-        return CreatedAtAction("Appointment Booking", new { appointmentId = created.Id },
+        return CreatedAtAction(nameof(BookAppointment), new { appointmentId = created.Id },
             ApiResponse<AppointmentResponse>.Ok(created.ToResponse(), "Appointment booked"));
     }
 
