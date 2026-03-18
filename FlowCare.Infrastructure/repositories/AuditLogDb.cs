@@ -29,6 +29,7 @@ public sealed class AuditLogDb : IAuditLogDb
             .Take(take)
             .Include(a => a.ActionType)
             .Include(a => a.EntityType)
+            .Include(a => a.Role)
             .ToListAsync(cancellationToken);
     }
 
