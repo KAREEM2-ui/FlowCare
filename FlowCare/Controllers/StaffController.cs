@@ -120,8 +120,14 @@ public class StaffController : ControllerBase
     /// Assign staff to branch. Admin ? system-wide, Manager ? branch-only
     /// </summary>
     [HttpPut("{staffId:int}/assign-branch/{branchId:int}")]
+    [Authorize(Roles = $"{nameof(UserRole.Admin)},{nameof(UserRole.BranchManager)}")]
     public async Task<IActionResult> AssignStaffToBranch(int staffId, int branchId)
     {
+        if (!_appAuthorizationService.IsAssignedBranch(User, branchId))
+            throw new UnauthorizedAccessException($"{GetRole()} is not assgined to The Branch ");
+
+
+
         var updated = await _staffService.ChangeStaffBranchAsync(staffId, branchId);
 
         await _auditLogService.LogAsync(new AuditLog

@@ -10,7 +10,6 @@ namespace FlowCare_presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
 public class FileController : ControllerBase
 {
     private readonly IFileStorageService _fileStorageService;
